@@ -7,7 +7,11 @@ import {
 	onAuthStateChanged,
 	User
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import {
+	collection,
+	CollectionReference,
+	getFirestore
+} from 'firebase/firestore';
 
 // Initialize Firebase
 initializeApp({
@@ -39,3 +43,27 @@ export const onAuthChanged = (callback: (u: User | null) => void) =>
 
 // Firestore
 const db = getFirestore();
+
+// FavoritePlace collection
+export type FavoritePlace = {
+	by: string;
+	name: string;
+	latitude: number;
+	longitude: number;
+	description?: string;
+};
+
+export const favoritePlacesCollection = collection(
+	db,
+	'favorite_places'
+) as CollectionReference<FavoritePlace>;
+
+// UserGroup collection
+export type UserGroup = {
+	user_email: string;
+};
+
+export const userGroupsCollection = collection(
+	db,
+	'user_groups'
+) as CollectionReference<UserGroup>;
