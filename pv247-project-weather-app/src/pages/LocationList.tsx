@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import {
 	Box,
+	Button,
 	FormControlLabel,
 	FormGroup,
 	Switch,
@@ -72,8 +73,16 @@ const LocationList = () => {
 						label="Show group locations"
 					/>
 				</FormGroup>
+				<Button variant="contained" sx={{ fontWeight: 'bold' }}>
+					Add new location
+				</Button>
 			</Box>
-			<Box>
+
+			<Box
+				sx={{
+					width: '80%'
+				}}
+			>
 				{places.map(p => (
 					<LocationTableItem
 						key={p.id}

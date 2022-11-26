@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 
 type Props = {
 	name: string;
@@ -14,6 +15,7 @@ const LocationTableItem: FC<Props> = ({
 	longitude,
 	description
 }) => (
+	// TODO: Styling
 	<Box
 		sx={{
 			display: 'flex',
@@ -31,14 +33,17 @@ const LocationTableItem: FC<Props> = ({
 		<Typography variant="h3" fontWeight="bold" color="black">
 			{name}
 		</Typography>
-		<Typography variant="h4" fontWeight="bold" color="black">
+		<Typography variant="h5" fontWeight="bold" color="black">
 			Coordinates: {latitude}, {longitude}
 		</Typography>
 		{description && (
-			<Typography variant="h4" fontWeight="bold" color="black">
+			<Typography variant="h5" fontWeight="bold" color="black">
 				Description: {description}
 			</Typography>
 		)}
+		<IconButton title="Delete" color="error">
+			<Delete />
+		</IconButton>
 	</Box>
 );
 

@@ -16,9 +16,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 				<AppBar sx={{ position: 'sticky', top: 0 }}>
 					<Container maxWidth="lg">
 						<Toolbar disableGutters sx={{ gap: 2 }}>
-							<Button component={Link} to="/">
-								My Group
-							</Button>
+							<Button>My Group</Button>
 							<Box sx={{ flexGrow: 1 }} />
 							<Button
 								onClick={() => {
