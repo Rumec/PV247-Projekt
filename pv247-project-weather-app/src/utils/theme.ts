@@ -12,8 +12,7 @@ const theme = createTheme({
 				'body, #root': {
 					display: 'flex',
 					flexDirection: 'column',
-					minHeight: '100vh',
-					minWidth: '100vw'
+					minHeight: '100vh'
 				}
 			}
 		}

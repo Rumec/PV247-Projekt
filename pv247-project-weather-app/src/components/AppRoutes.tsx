@@ -2,6 +2,8 @@ import { Routes, Route } from 'react-router-dom';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import Login from '../pages/Login';
+import LocationList from '../pages/LocationList';
+import NotFound from '../pages/NotFound';
 
 const AppRoutes = () => {
 	const user = useLoggedInUser();
@@ -9,6 +11,8 @@ const AppRoutes = () => {
 	return (
 		<Routes>
 			<Route path="/" element={<Login />} />
+			{user && <Route path="/LocationList" element={<LocationList />} />}
+			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);
 };
