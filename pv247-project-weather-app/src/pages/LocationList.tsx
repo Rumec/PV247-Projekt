@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
 	Box,
 	Button,
@@ -10,7 +9,7 @@ import {
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import useSwitch from '../hooks/useSwitch';
-import LocationTableItem from '../components/LocationTableItem';
+import LocationsTable from '../components/LocationsTable';
 
 const LocationList = () => {
 	const user = useLoggedInUser();
@@ -18,40 +17,6 @@ const LocationList = () => {
 		'show-group-locaitons',
 		'medium'
 	);
-
-	// TODO: Firebase call
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	useEffect(() => {}, []);
-
-	const places = [
-		{
-			id: 1,
-			name: 'Prague',
-			latitude: '50.1',
-			longitude: '14.43',
-			description: 'Prdelakov'
-		},
-		{
-			id: 2,
-			name: 'Wein',
-			latitude: '48.1',
-			longitude: '16.5',
-			description: 'Podivni lidi zde ziji'
-		},
-		{
-			id: 3,
-			name: 'Nairobi',
-			latitude: '57.1',
-			longitude: '89.43',
-			description: 'Odpadky vsude'
-		},
-		{
-			id: 4,
-			name: 'Wellington',
-			latitude: '73.3',
-			longitude: '1.43'
-		}
-	];
 
 	return (
 		<>
@@ -83,15 +48,7 @@ const LocationList = () => {
 					width: '80%'
 				}}
 			>
-				{places.map(p => (
-					<LocationTableItem
-						key={p.id}
-						name={p.name}
-						latitude={p.latitude}
-						longitude={p.longitude}
-						description={p.description}
-					/>
-				))}
+				<LocationsTable />
 			</Box>
 		</>
 	);

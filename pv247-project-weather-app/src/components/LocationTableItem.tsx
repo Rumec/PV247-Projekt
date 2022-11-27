@@ -4,16 +4,16 @@ import { Delete } from '@mui/icons-material';
 
 type Props = {
 	name: string;
-	latitude: string;
-	longitude: string;
-	description?: string;
+	temperature: number;
+	weather: string;
+	// description?: string;
 };
 
 const LocationTableItem: FC<Props> = ({
 	name,
-	latitude,
-	longitude,
-	description
+	temperature,
+	weather
+	// description
 }) => (
 	// TODO: Styling
 	<Box
@@ -24,7 +24,7 @@ const LocationTableItem: FC<Props> = ({
 			height: 'wrap-content',
 			padding: 2,
 			alignItems: 'flex-end',
-			justifyContent: 'flex-start',
+			justifyContent: 'space-between',
 			backgroundColor: 'primary.main',
 			margin: 2,
 			borderRadius: '2rem'
@@ -34,13 +34,11 @@ const LocationTableItem: FC<Props> = ({
 			{name}
 		</Typography>
 		<Typography variant="h5" fontWeight="bold" color="black">
-			Coordinates: {latitude}, {longitude}
+			Temperature: {temperature}
 		</Typography>
-		{description && (
-			<Typography variant="h5" fontWeight="bold" color="black">
-				Description: {description}
-			</Typography>
-		)}
+		<Typography variant="h5" fontWeight="bold" color="black">
+			Weather: {weather}
+		</Typography>
 		<IconButton title="Delete" color="error">
 			<Delete />
 		</IconButton>
