@@ -1,16 +1,22 @@
 import {
 	Box,
 	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
 	FormControlLabel,
 	FormGroup,
 	Switch,
 	Typography
 } from '@mui/material';
+import { useState } from 'react';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import useSwitch from '../hooks/useSwitch';
 import LocationsTable from '../components/LocationsTable';
 import useTitle from '../hooks/useTitle';
+import AddLocation from '../components/AddLocation';
 
 const LocationList = () => {
 	useTitle('Locations');
@@ -19,6 +25,8 @@ const LocationList = () => {
 		'show-group-locaitons',
 		'medium'
 	);
+
+	const [openDialog, setOpenDialog] = useState<boolean>(false);
 
 	return (
 		<>
@@ -40,7 +48,11 @@ const LocationList = () => {
 						label="Show group locations"
 					/>
 				</FormGroup>
-				<Button variant="contained" sx={{ fontWeight: 'bold' }}>
+				<Button
+					variant="contained"
+					sx={{ fontWeight: 'bold' }}
+					onClick={() => setOpenDialog(true)}
+				>
 					Add new location
 				</Button>
 			</Box>
@@ -51,6 +63,7 @@ const LocationList = () => {
 				}}
 			>
 				<LocationsTable />
+				<AddLocation isOpened={openDialog} setIsOpened={setOpenDialog} />
 			</Box>
 		</>
 	);
