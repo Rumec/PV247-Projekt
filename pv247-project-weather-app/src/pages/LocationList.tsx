@@ -10,8 +10,10 @@ import {
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import useSwitch from '../hooks/useSwitch';
 import LocationsTable from '../components/LocationsTable';
+import useTitle from '../hooks/useTitle';
 
 const LocationList = () => {
+	useTitle('Locations');
 	const user = useLoggedInUser();
 	const [showGroupLocaitons, showGroupLocaitonsProps] = useSwitch(
 		'show-group-locaitons',
