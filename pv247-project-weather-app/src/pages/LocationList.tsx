@@ -17,6 +17,7 @@ import useSwitch from '../hooks/useSwitch';
 import LocationsTable from '../components/LocationsTable';
 import useTitle from '../hooks/useTitle';
 import AddLocation from '../components/AddLocation';
+import { UserLocationsProvider } from '../hooks/useUserLocations';
 
 const LocationList = () => {
 	useTitle('Locations');
@@ -62,7 +63,9 @@ const LocationList = () => {
 					width: '80%'
 				}}
 			>
-				<LocationsTable />
+				<UserLocationsProvider>
+					<LocationsTable />
+				</UserLocationsProvider>
 				<AddLocation isOpened={openDialog} setIsOpened={setOpenDialog} />
 			</Box>
 		</>
