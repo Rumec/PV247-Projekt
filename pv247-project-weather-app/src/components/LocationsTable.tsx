@@ -1,3 +1,5 @@
+import { CircularProgress } from '@mui/material';
+
 import { LocationWeather } from '../utils/typeDefinitions';
 import useLocationWeatherInfo from '../hooks/useLocationWeatherInfo';
 
@@ -12,7 +14,7 @@ const LocationsTable = () => {
 	if (error) {
 		return <div>failed to load</div>;
 	}
-	if (isLoading) return <div>loading...</div>;
+	if (isLoading) return <CircularProgress />;
 
 	return weatherInfo.map((p: LocationWeather) => (
 		<LocationTableItem
