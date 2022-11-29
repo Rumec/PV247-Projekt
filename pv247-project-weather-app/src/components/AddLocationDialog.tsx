@@ -23,7 +23,7 @@ type Props = {
 
 const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 	const user = useLoggedInUser();
-	const [placeIds] = useUserLocations();
+	const [places] = useUserLocations();
 	const [location, locationFieldProps, setLocation] = useField('locationField');
 
 	const [submitError, setSubmitError] = useState<string>();
@@ -49,7 +49,7 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 						}
 					});
 
-					if (data && placeIds.includes(data?.id))
+					if (data && places.map(p => p.placeId).includes(data?.id))
 						setSubmitError('Location already added');
 					else if (data?.id) {
 						try {
