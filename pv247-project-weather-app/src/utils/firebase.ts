@@ -10,7 +10,9 @@ import {
 import {
 	collection,
 	CollectionReference,
-	getFirestore
+	doc,
+	getFirestore,
+	DocumentReference
 } from 'firebase/firestore';
 
 // Initialize Firebase
@@ -41,22 +43,26 @@ export const signOut = () => authSignOut(auth);
 export const onAuthChanged = (callback: (u: User | null) => void) =>
 	onAuthStateChanged(auth, callback);
 
+/************************ Firestore *******************************************/
+
 // Firestore
 const db = getFirestore();
 
 // FavoritePlace collection
 export type FavoritePlace = {
+	// Email (as unique identifier) of user - owner
 	by: string;
-	name: string;
-	latitude: number;
-	longitude: number;
-	description?: string;
+	// Id of the location provided by wheather api
+	placeId: number;
 };
 
 export const favoritePlacesCollection = collection(
 	db,
 	'favorite_places'
 ) as CollectionReference<FavoritePlace>;
+
+export const favoritePlacesDocument = (id: string) =>
+	doc(db, 'favorite_places', id) as DocumentReference<FavoritePlace>;
 
 // UserGroup collection
 export type UserGroup = {

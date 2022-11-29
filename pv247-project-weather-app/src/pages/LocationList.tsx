@@ -6,19 +6,22 @@ import {
 	Switch,
 	Typography
 } from '@mui/material';
+import { useState } from 'react';
 
-import useLoggedInUser from '../hooks/useLoggedInUser';
 import useSwitch from '../hooks/useSwitch';
 import LocationsTable from '../components/LocationsTable';
 import useTitle from '../hooks/useTitle';
+import AddLocationDialog from '../components/AddLocationDialog';
+import { UserLocationsProvider } from '../hooks/useUserLocations';
 
 const LocationList = () => {
 	useTitle('Locations');
-	const user = useLoggedInUser();
 	const [showGroupLocaitons, showGroupLocaitonsProps] = useSwitch(
 		'show-group-locaitons',
 		'medium'
 	);
+
+	const [openDialog, setOpenDialog] = useState<boolean>(false);
 
 	return (
 		<>
@@ -40,7 +43,11 @@ const LocationList = () => {
 						label="Show group locations"
 					/>
 				</FormGroup>
-				<Button variant="contained" sx={{ fontWeight: 'bold' }}>
+				<Button
+					variant="contained"
+					sx={{ fontWeight: 'bold' }}
+					onClick={() => setOpenDialog(true)}
+				>
 					Add new location
 				</Button>
 			</Box>
@@ -50,7 +57,13 @@ const LocationList = () => {
 					width: '80%'
 				}}
 			>
-				<LocationsTable />
+				<UserLocationsProvider>
+					<LocationsTable />
+					<AddLocationDialog
+						isOpened={openDialog}
+						setIsOpened={setOpenDialog}
+					/>
+				</UserLocationsProvider>
 			</Box>
 		</>
 	);
