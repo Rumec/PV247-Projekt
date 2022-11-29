@@ -23,11 +23,11 @@ const LocationTableItem: FC<Props> = ({
 	weather
 }) => {
 	const navigate = useNavigate();
-	const [placeIds] = useUserLocations();
+	const [places] = useUserLocations();
 
 	const onDelete = useCallback(async () => {
 		await deleteDoc(favoritePlacesDocument(dbId));
-	}, [placeIds]);
+	}, [places]);
 
 	return (
 		// TODO: Styling

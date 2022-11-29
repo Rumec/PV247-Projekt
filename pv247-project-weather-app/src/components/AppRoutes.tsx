@@ -11,7 +11,8 @@ const AppRoutes = () => {
 
 	return (
 		<Routes>
-			<Route path="/" element={<Login />} />
+			{!user && <Route path="/" element={<Login />} />}
+			<Route path="/" element={<LocationList />} />
 			{user && <Route path="/LocationList" element={<LocationList />} />}
 			{user && (
 				<Route path="/LocationDetail:locationId" element={<LocationDetail />} />
