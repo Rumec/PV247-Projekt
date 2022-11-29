@@ -23,7 +23,8 @@ const useField = (id: string, required?: boolean) => {
 			required,
 			error: errorOccured,
 			helperText: errorOccured ? 'Required filed' : undefined
-		}
+		},
+		setFieldValue
 	] as const;
 };
 

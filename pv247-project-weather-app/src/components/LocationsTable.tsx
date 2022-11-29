@@ -1,5 +1,4 @@
 import { Button, CircularProgress } from '@mui/material';
-import { useState } from 'react';
 
 import { LocationWeather } from '../utils/typeDefinitions';
 import useLocationWeatherInfo from '../hooks/useLocationWeatherInfo';
@@ -11,6 +10,10 @@ const LocationsTable = () => {
 	//TODO: Load from firebase
 	const [placeIds] = useUserLocations();
 	const { weatherInfo, isLoading, error } = useLocationWeatherInfo(placeIds);
+
+	if (!weatherInfo) {
+		return <div />;
+	}
 
 	if (error) {
 		return <div>failed to load</div>;

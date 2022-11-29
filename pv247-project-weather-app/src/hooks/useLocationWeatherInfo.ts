@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 
-import { fetchWeatherByIds } from '../utils/fetchers';
+import { fetchFromWeatherApi } from '../utils/fetchers';
 
 const useLocationWeatherInfo = (locationIds: number[]) => {
 	const query = `?id=${locationIds.join(
@@ -8,7 +8,7 @@ const useLocationWeatherInfo = (locationIds: number[]) => {
 	)}&units=metric&APPID=f8d581c6a5f819893fdbba63dc78bfe7`;
 	const { data, error } = useSWR(
 		['https://api.openweathermap.org/data/2.5/group', query],
-		fetchWeatherByIds
+		fetchFromWeatherApi
 	);
 
 	return {

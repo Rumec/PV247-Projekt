@@ -1,10 +1,6 @@
 import {
 	Box,
 	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
 	FormControlLabel,
 	FormGroup,
 	Switch,
@@ -12,16 +8,14 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 
-import useLoggedInUser from '../hooks/useLoggedInUser';
 import useSwitch from '../hooks/useSwitch';
 import LocationsTable from '../components/LocationsTable';
 import useTitle from '../hooks/useTitle';
-import AddLocation from '../components/AddLocation';
+import AddLocationDialog from '../components/AddLocationDialog';
 import { UserLocationsProvider } from '../hooks/useUserLocations';
 
 const LocationList = () => {
 	useTitle('Locations');
-	const user = useLoggedInUser();
 	const [showGroupLocaitons, showGroupLocaitonsProps] = useSwitch(
 		'show-group-locaitons',
 		'medium'
@@ -65,8 +59,11 @@ const LocationList = () => {
 			>
 				<UserLocationsProvider>
 					<LocationsTable />
+					<AddLocationDialog
+						isOpened={openDialog}
+						setIsOpened={setOpenDialog}
+					/>
 				</UserLocationsProvider>
-				<AddLocation isOpened={openDialog} setIsOpened={setOpenDialog} />
 			</Box>
 		</>
 	);
