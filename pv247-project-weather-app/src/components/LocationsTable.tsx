@@ -44,8 +44,6 @@ const LocationsTable = () => {
 			{weatherInfo.map((p: LocationWeather) => (
 				<LocationTableItem
 					key={p.id}
-					// TODO: Do it better, it's ugly
-					dbId={places.filter(pl => pl.placeId === p.id)[0]?.dbID}
 					id={p.id}
 					name={p.name}
 					temperature={p.main.temp}
