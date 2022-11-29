@@ -1,5 +1,5 @@
 import { FC, useCallback } from 'react';
-import { Box, ButtonBase, IconButton, Typography } from '@mui/material';
+import { Box, ButtonBase, Grid, IconButton, Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
 
@@ -43,15 +43,29 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 					navigate(`/LocationDetail:${id}`);
 				}}
 			>
-				<Typography variant="h3" fontWeight="bold" color="black">
-					{name}
-				</Typography>
-				<Typography variant="h5" fontWeight="bold" color="black">
-					Temperature: {temperature}
-				</Typography>
-				<Typography variant="h5" fontWeight="bold" color="black">
-					Weather: {weather}
-				</Typography>
+				<Grid container spacing={2} alignItems="flex-end">
+					<Grid
+						item
+						xs={4}
+						display="flex"
+						justifyContent="flex-start"
+						alignItems="flex-end"
+					>
+						<Typography variant="h3" fontWeight="bold" color="black">
+							{name}
+						</Typography>
+					</Grid>
+					<Grid item xs={4}>
+						<Typography variant="h5" fontWeight="bold" color="black">
+							Temperature: {temperature}
+						</Typography>
+					</Grid>
+					<Grid item xs={4}>
+						<Typography variant="h5" fontWeight="bold" color="black">
+							Weather: {weather}
+						</Typography>
+					</Grid>
+				</Grid>
 			</ButtonBase>
 			<IconButton title="Delete" color="error" onClick={() => onDelete()}>
 				<Delete />
