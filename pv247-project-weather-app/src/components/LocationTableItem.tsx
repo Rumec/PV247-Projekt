@@ -2,22 +2,31 @@ import { FC, useCallback } from 'react';
 import { Box, ButtonBase, Grid, IconButton, Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
+import { deleteDoc } from 'firebase/firestore';
 
 import { useUserLocations } from '../hooks/useUserLocations';
+import { favoritePlacesDocument } from '../utils/firebase';
 
 type Props = {
+	dbId: string;
 	id: number;
 	name: string;
 	temperature: number;
 	weather: string;
 };
 
-const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
+const LocationTableItem: FC<Props> = ({
+	dbId,
+	id,
+	name,
+	temperature,
+	weather
+}) => {
 	const navigate = useNavigate();
-	const [placeIds, setPlaceIds] = useUserLocations();
+	const [placeIds] = useUserLocations();
 
-	const onDelete = useCallback(() => {
-		setPlaceIds(prevState => prevState.filter(placeId => placeId !== id));
+	const onDelete = useCallback(async () => {
+		await deleteDoc(favoritePlacesDocument(dbId));
 	}, [placeIds]);
 
 	return (
@@ -43,7 +52,7 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 					navigate(`/LocationDetail:${id}`);
 				}}
 			>
-				<Grid container spacing={2} alignItems="flex-end">
+				<Grid container spacing={2} alignItems="center">
 					<Grid
 						item
 						xs={4}

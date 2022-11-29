@@ -8,7 +8,14 @@ import {
 	useState
 } from 'react';
 
-type UserLocationsState = [number[], Dispatch<SetStateAction<number[]>>];
+import { FavoritePlace } from '../utils/firebase';
+
+export type FavoritePlaceWrapper = FavoritePlace & { dbID: string };
+
+type UserLocationsState = [
+	FavoritePlaceWrapper[],
+	Dispatch<SetStateAction<FavoritePlaceWrapper[]>>
+];
 
 // TODO: This will be fetched from API (FireBase)
 const UserLocationsContext = createContext<UserLocationsState>(
@@ -16,9 +23,7 @@ const UserLocationsContext = createContext<UserLocationsState>(
 );
 
 export const UserLocationsProvider: FC<PropsWithChildren> = ({ children }) => {
-	const userLocationsState = useState<number[]>([
-		524901, 703448, 2643743, 14256
-	]);
+	const userLocationsState = useState<FavoritePlaceWrapper[]>([]);
 	return (
 		<UserLocationsContext.Provider value={userLocationsState}>
 			{children}

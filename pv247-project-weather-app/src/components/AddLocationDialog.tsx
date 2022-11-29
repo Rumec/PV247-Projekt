@@ -8,10 +8,13 @@ import {
 	Typography
 } from '@mui/material';
 import { Search } from '@mui/icons-material';
+import { addDoc } from 'firebase/firestore';
 
 import useField from '../hooks/useField';
 import { useUserLocations } from '../hooks/useUserLocations';
 import { fetchFromWeatherApi } from '../utils/fetchers';
+import { favoritePlacesCollection } from '../utils/firebase';
+import useLoggedInUser from '../hooks/useLoggedInUser';
 
 type Props = {
 	isOpened: boolean;
@@ -19,7 +22,8 @@ type Props = {
 };
 
 const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
-	const [placeIds, setPlaceIds] = useUserLocations();
+	const user = useLoggedInUser();
+	const [placeIds] = useUserLocations();
 	const [location, locationFieldProps, setLocation] = useField('locationField');
 
 	const [submitError, setSubmitError] = useState<string>();
@@ -29,7 +33,7 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 			<Paper
 				component="form"
 				onSubmit={async (e: FormEvent) => {
-					// NOTE: Is it possible to make it better?
+					// TODO: Is it possible to make it better?
 					e.preventDefault();
 
 					const query = `?q=${location}&APPID=f8d581c6a5f819893fdbba63dc78bfe7`;
@@ -38,7 +42,7 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 						'https://api.openweathermap.org/data/2.5/weather',
 						query
 					).catch(err => {
-						if (err?.response!.status === 404) {
+						if (err?.response?.status === 404) {
 							setSubmitError('Location not found');
 						} else {
 							setSubmitError('Unknown error occured');
@@ -48,7 +52,14 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 					if (data && placeIds.includes(data?.id))
 						setSubmitError('Location already added');
 					else if (data?.id) {
-						setPlaceIds(prevState => [...prevState, data?.id]);
+						try {
+							await addDoc(favoritePlacesCollection, {
+								by: user?.email,
+								placeId: data.id
+							});
+						} catch (e) {
+							setSubmitError('Firestore error');
+						}
 						setLocation('');
 						setIsOpened(false);
 					}
