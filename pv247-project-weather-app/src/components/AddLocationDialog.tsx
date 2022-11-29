@@ -29,6 +29,7 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 			<Paper
 				component="form"
 				onSubmit={async (e: FormEvent) => {
+					// NOTE: Is it possible to make it better?
 					e.preventDefault();
 
 					const query = `?q=${location}&APPID=f8d581c6a5f819893fdbba63dc78bfe7`;
