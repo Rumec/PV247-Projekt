@@ -8,24 +8,18 @@ import { useUserLocations } from '../hooks/useUserLocations';
 import { favoritePlacesDocument } from '../utils/firebase';
 
 type Props = {
-	dbId: string;
 	id: number;
 	name: string;
 	temperature: number;
 	weather: string;
 };
 
-const LocationTableItem: FC<Props> = ({
-	dbId,
-	id,
-	name,
-	temperature,
-	weather
-}) => {
+const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 	const navigate = useNavigate();
 	const [places] = useUserLocations();
 
 	const onDelete = useCallback(async () => {
+		const dbId = places.filter(p => p.placeId === id)[0]?.dbID;
 		await deleteDoc(favoritePlacesDocument(dbId));
 	}, [places]);
 
