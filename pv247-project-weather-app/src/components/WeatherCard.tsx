@@ -56,12 +56,22 @@ const getAverageTemp = (data: any, key: string) => {
 	return temps.length !== 0 ? sum / temps.length : 0;
 };
 
+const getMinTemp = (data: any, key: string) => {
+	const temps: number[] = data.map((item: any) => item.main[key]);
+	return Math.min(...temps);
+};
+
+const getMaxTemp = (data: any, key: string) => {
+	const temps: number[] = data.map((item: any) => item.main[key]);
+	return Math.max(...temps);
+};
+
 const getMainAvgValues = (data: any, date: string, icon: string) => {
 	console.log(icon);
 	const avgTemp = getAverageTemp(data, 'temp');
 	const avgFeelsLike = getAverageTemp(data, 'feels_like');
-	const avgTempMin = getAverageTemp(data, 'temp_min');
-	const avgTempMax = getAverageTemp(data, 'temp_max');
+	const avgTempMin = getMinTemp(data, 'temp_min');
+	const avgTempMax = getMaxTemp(data, 'temp_max');
 	const avgPressure = getAverageTemp(data, 'pressure');
 	const avgSeaLevel = getAverageTemp(data, 'sea_level');
 	const avgGroundLevel = getAverageTemp(data, 'grnd_level');
@@ -115,9 +125,9 @@ const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
 
 	return (
 		<>
-			{weather && <LocationSummary {...weather.city} />}
+			{/* {weather && <LocationSummary {...weather.city} />} */}
 			{weather && (
-				<Grid container spacing={3} justifyContent="center">
+				<Grid container spacing={1} justifyContent="space-between">
 					{groupWeatherDataByDay(weather)
 						.map((item: any) =>
 							getMainAvgValues(item.data, item.date, item.icon)
@@ -143,8 +153,8 @@ const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
 													justifyContent: 'space-between'
 												}}
 											>
-												<Typography variant="h4" color="textSecondary">
-													{`${days[new Date(item.date).getDay()]} - ${new Date(
+												<Typography variant="h5" color="textSecondary">
+													{`${days[new Date(item.date).getDay()]} ${new Date(
 														item.date
 													).toLocaleDateString()}`}
 												</Typography>
@@ -164,25 +174,25 @@ const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
 													/>
 												</Box>
 											</Box>
-											<Typography variant="h5" color="textSecondary">
+											<Typography variant="h6" color="textSecondary">
 												Temperature: {Math.round(item.avgTemp * 100) / 100}°C
 											</Typography>
-											<Typography variant="h5" color="textSecondary">
+											<Typography variant="h6" color="textSecondary">
 												Feels Like Temperature:{' '}
 												{Math.round(item.avgFeelsLike * 100) / 100}°C
 											</Typography>
-											<Typography variant="h5" color="textSecondary">
+											<Typography variant="h6" color="textSecondary">
 												Min Temperature:{' '}
 												{Math.round(item.avgTempMin * 100) / 100}°C
 											</Typography>
-											<Typography variant="h5" color="textSecondary">
+											<Typography variant="h6" color="textSecondary">
 												Max Temperature:{' '}
 												{Math.round(item.avgTempMax * 100) / 100}°C
 											</Typography>
-											<Typography variant="h5" color="textSecondary">
+											<Typography variant="h6" color="textSecondary">
 												Pressure: {Math.round(item.avgPressure * 100) / 100} hPa
 											</Typography>
-											<Typography variant="h5" color="textSecondary">
+											<Typography variant="h6" color="textSecondary">
 												Humidity: {Math.round(item.avgHumidity * 100) / 100}%
 											</Typography>
 										</CardContent>
