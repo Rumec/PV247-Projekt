@@ -24,7 +24,7 @@ const LocationDetail = () => {
 	// TODO: Add some fancy details, map, etc .... Use useLocationWeatherInfo hook to get fetched data
 	return (
 		<>
-			<Typography variant="h1">Detail of location {locationId}</Typography>
+			<Typography variant="h1">Detail of {weatherInfo[0].name}</Typography>
 			<LocationSummary id={locationId?.replace(':', '')} />
 			<WeatherCard
 				name={weatherInfo[0].name}
