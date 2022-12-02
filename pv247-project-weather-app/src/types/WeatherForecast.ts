@@ -1,4 +1,4 @@
-export type WeatherData = {
+export type WeatherForecast = {
 	cos: string;
 	message: string;
 	cnt: number;

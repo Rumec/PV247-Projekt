@@ -1,17 +1,17 @@
-import { FC } from 'react';
-import {
-	MapContainer,
-	TileLayer,
-	Marker,
-	Popup,
-	LayersControl,
-	ScaleControl
-} from 'react-leaflet';
+import { Container } from '@mui/material';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import { Container } from '@mui/material';
+import 'leaflet/dist/leaflet.css';
+import { FC } from 'react';
+import {
+	LayersControl,
+	MapContainer,
+	Marker,
+	Popup,
+	ScaleControl,
+	TileLayer
+} from 'react-leaflet';
 
 const DefaultIcon = L.icon({
 	iconUrl: icon,
@@ -39,12 +39,12 @@ type MapProps = {
 	lon: number;
 };
 const Map: FC<MapProps> = ({ name, lat, lon }) => (
-	<Container sx={{ width: '100%' }}>
+	<Container sx={{ width: '100%', height: '100%' }}>
 		<MapContainer
-			center={location}
+			center={[lat, lon]}
 			zoom={3}
 			scrollWheelZoom={false}
-			style={{ height: '50vh', width: '100%' }}
+			style={{ height: '100%', width: '100%' }}
 		>
 			<ScaleControl position="topleft" />
 			<LayersControl position="topright">

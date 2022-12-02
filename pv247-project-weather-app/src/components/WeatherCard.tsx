@@ -1,17 +1,16 @@
 import {
+	Box,
 	Card,
 	CardContent,
-	Box,
 	CardMedia,
 	Grid,
 	Paper,
 	Typography
 } from '@mui/material';
-import { useEffect, FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import { WeatherData } from '../types/WeatherData';
+import { WeatherForecast } from '../types/WeatherForecast';
 
-import LocationSummary from './LocationSummary';
 import WeatherTable from './WeatherTable';
 
 //
@@ -67,7 +66,7 @@ const getMaxTemp = (data: any, key: string) => {
 };
 
 const getMainAvgValues = (data: any, date: string, icon: string) => {
-	console.log(icon);
+	// console.log(icon);
 	const avgTemp = getAverageTemp(data, 'temp');
 	const avgFeelsLike = getAverageTemp(data, 'feels_like');
 	const avgTempMin = getMinTemp(data, 'temp_min');
@@ -100,7 +99,7 @@ const days = [
 ];
 
 const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
-	const [weather, setWeather] = useState<WeatherData>();
+	const [weather, setWeather] = useState<WeatherForecast>();
 	const [error, setError] = useState<any>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
@@ -132,74 +131,73 @@ const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
 						.map((item: any) =>
 							getMainAvgValues(item.data, item.date, item.icon)
 						)
-						.map((item: any, k) => {
-							console.log(`weather_icons/${item.icon}.png`);
-							return (
-								<Grid item xs={2} sm={2} md={2} lg={2} key={k}>
-									<Card
-										sx={{
-											display: 'flex',
-											flexDirection: 'column',
-											justifyContent: 'space-between',
-											width: '100%',
-											textAlign: 'left'
-										}}
-										component={Paper}
-									>
-										<CardContent>
+						.map((item: any, k) => (
+							// console.log(`weather_icons/${item.icon}.png`);
+							<Grid item xs={2} sm={2} md={2} lg={2} key={k}>
+								<Card
+									sx={{
+										display: 'flex',
+										flexDirection: 'column',
+										justifyContent: 'space-between',
+										width: '100%',
+										height: '100%',
+										textAlign: 'left'
+									}}
+									component={Paper}
+								>
+									<CardContent>
+										<Box
+											sx={{
+												display: 'flex',
+												justifyContent: 'space-between'
+											}}
+										>
+											<Typography variant="h5" color="textSecondary">
+												{`${days[new Date(item.date).getDay()]} ${new Date(
+													item.date
+												).toLocaleDateString()}`}
+											</Typography>
 											<Box
 												sx={{
 													display: 'flex',
-													justifyContent: 'space-between'
+													justifyContent: 'center'
 												}}
 											>
-												<Typography variant="h5" color="textSecondary">
-													{`${days[new Date(item.date).getDay()]} ${new Date(
-														item.date
-													).toLocaleDateString()}`}
-												</Typography>
-												<Box
-													sx={{
-														display: 'flex',
-														justifyContent: 'center'
-													}}
-												>
-													<CardMedia
-														component="img"
-														sx={{ objectFit: 'contain' }}
-														image={`weather_icons/${item.icon.substring(
-															0,
-															2
-														)}d.png`}
-													/>
-												</Box>
+												<CardMedia
+													component="img"
+													sx={{ objectFit: 'contain' }}
+													image={`weather_icons/${item.icon.substring(
+														0,
+														2
+													)}d.png`}
+												/>
 											</Box>
-											<Typography variant="h6" color="textSecondary">
-												Temperature: {Math.round(item.avgTemp * 100) / 100}°C
-											</Typography>
-											<Typography variant="h6" color="textSecondary">
-												Feels Like Temperature:{' '}
-												{Math.round(item.avgFeelsLike * 100) / 100}°C
-											</Typography>
-											<Typography variant="h6" color="textSecondary">
-												Min Temperature:{' '}
-												{Math.round(item.avgTempMin * 100) / 100}°C
-											</Typography>
-											<Typography variant="h6" color="textSecondary">
-												Max Temperature:{' '}
-												{Math.round(item.avgTempMax * 100) / 100}°C
-											</Typography>
-											<Typography variant="h6" color="textSecondary">
-												Pressure: {Math.round(item.avgPressure * 100) / 100} hPa
-											</Typography>
-											<Typography variant="h6" color="textSecondary">
-												Humidity: {Math.round(item.avgHumidity * 100) / 100}%
-											</Typography>
-										</CardContent>
-									</Card>
-								</Grid>
-							);
-						})}
+										</Box>
+										<Typography variant="h6" color="textSecondary">
+											Temperature: {Math.round(item.avgTemp * 100) / 100}°C
+										</Typography>
+										<Typography variant="h6" color="textSecondary">
+											Feels Like Temperature:{' '}
+											{Math.round(item.avgFeelsLike * 100) / 100}°C
+										</Typography>
+										<Typography variant="h6" color="textSecondary">
+											Min Temperature: {Math.round(item.avgTempMin * 100) / 100}
+											°C
+										</Typography>
+										<Typography variant="h6" color="textSecondary">
+											Max Temperature: {Math.round(item.avgTempMax * 100) / 100}
+											°C
+										</Typography>
+										<Typography variant="h6" color="textSecondary">
+											Pressure: {Math.round(item.avgPressure * 100) / 100} hPa
+										</Typography>
+										<Typography variant="h6" color="textSecondary">
+											Humidity: {Math.round(item.avgHumidity * 100) / 100}%
+										</Typography>
+									</CardContent>
+								</Card>
+							</Grid>
+						))}
 				</Grid>
 			)}
 			<WeatherTable weather={weather} />

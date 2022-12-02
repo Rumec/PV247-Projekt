@@ -1,14 +1,16 @@
-import { FC, PropsWithChildren } from 'react';
 import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { FC, PropsWithChildren, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import { signOut } from '../utils/firebase';
 
+import GroupDrawer from './GroupDrawer';
+
 const Layout: FC<PropsWithChildren> = ({ children }) => {
 	const user = useLoggedInUser();
 	const navigate = useNavigate();
+	const [openDrawer, setOpenDrawer] = useState(false);
 
 	return (
 		<>
@@ -16,7 +18,25 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 				<AppBar sx={{ position: 'sticky', top: 0 }}>
 					<Container maxWidth="lg">
 						<Toolbar disableGutters sx={{ gap: 2 }}>
-							<Button>My Group</Button>
+							<Button
+								onClick={() => {
+									console.log('in on click button');
+									setOpenDrawer(true);
+								}}
+							>
+								My Group
+							</Button>
+							<GroupDrawer
+								openDrawer={openDrawer}
+								setOpenDrawer={setOpenDrawer}
+							/>
+							<Button
+								onClick={() => {
+									navigate('/LocationList');
+								}}
+							>
+								Home
+							</Button>
 							<Box sx={{ flexGrow: 1 }} />
 							<Button
 								onClick={() => {

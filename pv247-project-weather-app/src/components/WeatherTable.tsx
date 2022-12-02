@@ -1,18 +1,18 @@
 import {
-	TableContainer,
+	Avatar,
+	Button,
+	CardHeader,
 	Paper,
 	Table,
 	TableBody,
 	TableCell,
+	TableContainer,
 	TableHead,
-	TableRow,
-	Avatar,
-	CardHeader,
-	Button
+	TableRow
 } from '@mui/material';
 import { CSVLink } from 'react-csv';
 
-import { WeatherData } from '../types/WeatherData';
+import { WeatherForecast } from '../types/WeatherForecast';
 
 const headers = [
 	{ label: 'Date', key: 'date' },
@@ -34,10 +34,10 @@ const headers = [
 ];
 
 type WeatherTableProps = {
-	weather: WeatherData | undefined;
+	weather: WeatherForecast | undefined;
 };
 
-const getWeatherData = (weather: WeatherData) =>
+const getWeatherData = (weather: WeatherForecast) =>
 	weather.list.map((item: any) => ({
 		date: item.dt_txt,
 		desc: item.weather[0].description,

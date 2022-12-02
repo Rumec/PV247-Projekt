@@ -1,18 +1,19 @@
 import { initializeApp } from 'firebase/app';
 import {
-	getAuth,
 	createUserWithEmailAndPassword,
+	getAuth,
+	onAuthStateChanged,
 	signInWithEmailAndPassword,
 	signOut as authSignOut,
-	onAuthStateChanged,
 	User
 } from 'firebase/auth';
 import {
 	collection,
 	CollectionReference,
 	doc,
-	getFirestore,
-	DocumentReference
+	DocumentReference,
+	getDoc,
+	getFirestore
 } from 'firebase/firestore';
 
 // Initialize Firebase
@@ -65,11 +66,27 @@ export const favoritePlacesDocument = (id: string) =>
 	doc(db, 'favorite_places', id) as DocumentReference<FavoritePlace>;
 
 // UserGroup collection
-export type UserGroup = {
-	user_email: string;
-};
+export type UserGroup = Record<string, never>;
 
 export const userGroupsCollection = collection(
 	db,
 	'user_groups'
 ) as CollectionReference<UserGroup>;
+
+// GroupUsers collection
+export type GroupUser = {
+	group_name: string;
+};
+
+export const groupUsersCollection = collection(
+	db,
+	'group_users'
+) as CollectionReference<GroupUser>;
+
+export const groupUserDocument = (id: string) =>
+	doc(db, 'group_users', id) as DocumentReference<GroupUser>;
+
+export const fetchUserGroup = async (user_email: string) => {
+	const groupName = await getDoc(groupUserDocument(user_email));
+	return groupName;
+};

@@ -1,56 +1,59 @@
 import {
+	Avatar,
 	Box,
-	Typography,
 	Card,
 	CardContent,
 	CardHeader,
 	CardMedia,
-	Avatar,
-	Grid
+	Grid,
+	Typography
 } from '@mui/material';
 import { FC } from 'react';
+import { FlagIcon, FlagIconCode } from 'react-flag-kit';
 
 import Map from '../components/Map';
-import useLocationWeatherInfo from '../hooks/useLocationWeatherInfo';
+import { CurrentWeather } from '../types/CurrentWeather';
 
 type LocationSummaryProps = {
 	id: string | undefined;
-	// name: string;
-	// coord: {
-	// 	lat: number;
-	// 	lon: number;
-	// };
-	// country: string;
-	// population: number;
-	// timezone: number;
-	// sunrise: number;
-	// sunset: number;
+	weather: CurrentWeather;
 };
 
-const LocationSummary: FC<LocationSummaryProps> = ({ id }) => {
+const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 	if (!id) {
 		return <Typography>Error</Typography>;
 	}
-	console.log('parseInt>>>>>>', parseInt(id));
-	const { weatherInfo, isLoading, error } = useLocationWeatherInfo([
-		parseInt(id)
-	]);
+	console.log(weather);
 
 	return (
-		<Grid container spacing={3} justifyContent="start" sx={{ width: '100%' }}>
+		<Grid
+			container
+			spacing={0}
+			justifyContent="center"
+			sx={{ width: '100%' }}
+			mt={2}
+		>
 			<Grid item xs={6} sm={6}>
 				<Card sx={{ width: '100%', height: '100%' }} variant="outlined">
 					<Grid
 						container
-						spacing={3}
+						spacing={0}
 						justifyContent="center"
 						sx={{ height: '100%' }}
 					>
 						<Grid item xs={6} sm={6}>
 							<Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
 								<CardHeader
-									title={`${weatherInfo[0].name}, ${weatherInfo[0].sys.country}`}
-									subheader={`Latitude: ${weatherInfo[0].coord.lat} | Longitude: ${weatherInfo[0].coord.lon}`}
+									title={
+										<Box>
+											{weather.name}, {weather.sys.country}{' '}
+											<FlagIcon
+												code={weather.sys.country as FlagIconCode}
+												size={36}
+											/>
+										</Box>
+									}
+									subheader={`Latitude: ${weather.coord.lat} | Longitude: ${weather.coord.lon}`}
 									titleTypographyProps={{ variant: 'h3' }}
 									subheaderTypographyProps={{ variant: 'subtitle1' }}
 								/>
@@ -58,17 +61,13 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id }) => {
 									<Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
 										<Avatar alt="" src="weather_icons/sunrise.png" />
 										<Typography variant="h6">
-											{new Date(
-												weatherInfo[0].sys.sunrise * 1000
-											).toLocaleString()}
+											{new Date(weather.sys.sunrise * 1000).toLocaleString()}
 										</Typography>
 									</Box>
 									<Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
 										<Avatar alt="" src="weather_icons/sunset.png" />
 										<Typography variant="h6">
-											{new Date(
-												weatherInfo[0].sys.sunset * 1000
-											).toLocaleString()}
+											{new Date(weather.sys.sunset * 1000).toLocaleString()}
 										</Typography>
 									</Box>
 								</CardContent>
@@ -83,7 +82,10 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id }) => {
 									}}
 								>
 									<Typography variant="h3" color="textSecondary">
-										Rain - moderate rain
+										{weather.weather[0].description
+											.split(' ')
+											.map(word => word[0].toUpperCase() + word.slice(1))
+											.join(' ')}
 									</Typography>
 									<Box
 										sx={{
@@ -93,42 +95,43 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id }) => {
 									>
 										<CardMedia
 											component="img"
-											image="weather_icons/03d.png"
-											height="250"
+											image={`weather_icons/${weather.weather[0].icon}.png`}
+											height="150"
+											width="150"
 											sx={{ objectFit: 'contain' }}
 											alt=""
 										/>
 									</Box>
 								</Box>
 								<Typography variant="h5" color="textSecondary">
-									Visibility - 8km
+									Visibility: {weather.visibility / 1000} km
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Rain volume 3.16mm
+									Rain: {weather.rain ? `${weather.rain['1h']}  mm` : 'unknown'}
+								</Typography>
+								<Typography variant="h6" color="textSecondary">
+									Wind: {weather.wind.speed} m/s | {weather.wind.deg} deg
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Wind - 0.62 349* 1.18
+									Cloudiness: {weather.clouds.all} %
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Cloudiness 98%
+									Temperature: {weather.main.temp} °C
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Temperature: 20°C
+									Feels Like Temp: {weather.main.feels_like} °C
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Feels Like Temperature: 16°C
+									Min Temperature: {weather.main.temp_min} °C
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Min Temperature: 12°C
+									Max Temperature: {weather.main.temp_max} °C
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Max Temperature: 18°C
+									Pressure: {weather.main.pressure} hPa
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Pressure: 1020 hPa
-								</Typography>
-								<Typography variant="h5" color="textSecondary">
-									Humidity: 80.5%
+									Humidity: {weather.main.humidity} %
 								</Typography>
 							</Card>
 						</Grid>
@@ -137,9 +140,9 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id }) => {
 			</Grid>
 			<Grid item xs={6} sm={6}>
 				<Map
-					name={weatherInfo[0].name}
-					lat={weatherInfo[0].coord.lat}
-					lon={weatherInfo[0].coord.lon}
+					name={weather.name}
+					lat={weather.coord.lat}
+					lon={weather.coord.lon}
 				/>
 			</Grid>
 		</Grid>

@@ -16,8 +16,8 @@ import { UserLocationsProvider } from '../hooks/useUserLocations';
 
 const LocationList = () => {
 	useTitle('Locations');
-	const [showGroupLocaitons, showGroupLocaitonsProps] = useSwitch(
-		'show-group-locaitons',
+	const [showGroupLocations, showGroupLocaitonsProps] = useSwitch(
+		'show-group-locations',
 		'medium'
 	);
 
@@ -58,7 +58,7 @@ const LocationList = () => {
 				}}
 			>
 				<UserLocationsProvider>
-					<LocationsTable />
+					<LocationsTable showGroup={showGroupLocations} />
 					<AddLocationDialog
 						isOpened={openDialog}
 						setIsOpened={setOpenDialog}

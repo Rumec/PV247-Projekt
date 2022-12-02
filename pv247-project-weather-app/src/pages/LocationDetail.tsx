@@ -9,11 +9,11 @@ import useTitle from '../hooks/useTitle';
 const LocationDetail = () => {
 	useTitle('Location Detail');
 	const { locationId } = useParams();
-	console.log('location detail', locationId);
+	// console.log('location detail', locationId);
 	if (!locationId) {
 		return <Typography>Error</Typography>;
 	}
-	console.log('location detail', locationId.replace(':', ''));
+	// console.log('location detail', locationId.replace(':', ''));
 	const { weatherInfo, isLoading, error } = useLocationWeatherInfo([
 		parseInt(locationId.replace(':', ''))
 	]);
@@ -24,8 +24,11 @@ const LocationDetail = () => {
 	// TODO: Add some fancy details, map, etc .... Use useLocationWeatherInfo hook to get fetched data
 	return (
 		<>
-			<Typography variant="h1">Detail of location {locationId}</Typography>
-			<LocationSummary id={locationId?.replace(':', '')} />
+			{/* <Typography variant="h1">Detail of location {locationId}</Typography> */}
+			<LocationSummary
+				id={locationId?.replace(':', '')}
+				weather={weatherInfo[0]}
+			/>
 			<WeatherCard
 				name={weatherInfo[0].name}
 				latitude={weatherInfo[0].coord.lat}

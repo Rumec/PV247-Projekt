@@ -6,15 +6,18 @@ import { UserProvider } from './hooks/useLoggedInUser';
 import theme from './utils/theme';
 import Layout from './components/Layout';
 import AppRoutes from './components/AppRoutes';
+import { GroupUsersProvider } from './hooks/useGroupUsers';
 
 const App = () => (
 	<UserProvider>
 		<ThemeProvider theme={theme}>
 			<BrowserRouter>
 				<CssBaseline />
-				<Layout>
-					<AppRoutes />
-				</Layout>
+				<GroupUsersProvider>
+					<Layout>
+						<AppRoutes />
+					</Layout>
+				</GroupUsersProvider>
 			</BrowserRouter>
 		</ThemeProvider>
 	</UserProvider>
