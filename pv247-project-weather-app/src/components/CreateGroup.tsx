@@ -14,10 +14,11 @@ import useField from '../hooks/useField';
 
 export type CreateGroupProps = {
 	open: boolean;
-	onClose: (value: string | undefined) => void;
+	onClose: (value: boolean) => void;
+	onSubmit: (value: string | undefined) => void;
 };
 
-const CreateGroup: FC<CreateGroupProps> = ({ open, onClose }) => {
+const CreateGroup: FC<CreateGroupProps> = ({ open, onClose, onSubmit }) => {
 	const [userGroups, setUserGroups] = useState<string[]>([]);
 	const [group, groupFieldProps] = useField('groupField');
 
@@ -34,7 +35,7 @@ const CreateGroup: FC<CreateGroupProps> = ({ open, onClose }) => {
 	}, []);
 
 	const handleClose = () => {
-		onClose(group);
+		onClose(false);
 	};
 
 	return (
@@ -48,7 +49,7 @@ const CreateGroup: FC<CreateGroupProps> = ({ open, onClose }) => {
 					else {
 						const groupDoc = groupDocument(group);
 						setDoc(groupDoc, {});
-						onClose(group);
+						onSubmit(group);
 					}
 				}}
 				sx={{

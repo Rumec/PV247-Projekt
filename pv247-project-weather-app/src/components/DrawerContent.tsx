@@ -55,7 +55,11 @@ const DrawerContent: FC = () => {
 				open={openSelectDialog}
 				onClose={handleSelectClose}
 			/>
-			<CreateGroup open={openCreateDialog} onClose={handleCreateClose} />
+			<CreateGroup
+				open={openCreateDialog}
+				onClose={setOpenCreateDialog}
+				onSubmit={handleCreateClose}
+			/>
 			{groupName && (
 				<GroupUsersList groupName={groupName} groupUsers={groupUsers} />
 			)}
