@@ -1,34 +1,33 @@
 import { Button } from '@mui/material';
 import { deleteDoc } from 'firebase/firestore';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 
-import { fetchUserGroup, groupUserDocument } from '../utils/firebase';
+import { useGroupUsers } from '../hooks/useGroupUsers';
 import useLoggedInUser from '../hooks/useLoggedInUser';
+import { fetchAllUsersInGroup, groupUserDocument } from '../utils/firebase';
 
+import CreateGroup from './CreateGroup';
 import GroupDialog from './GroupDialog';
 import GroupUsersList from './GroupUsersList';
 
 const DrawerContent: FC = () => {
 	const user = useLoggedInUser();
-	const [openDialog, setOpenDialog] = useState(false);
-	const [groupName, setGroupName] = useState<string>();
+	const [openSelectDialog, setOpenSelectDialog] = useState(false);
+	const [openCreateDialog, setOpenCreateDialog] = useState(false);
+	const [{ groupName, groupUsers }, setGroupUsers] = useGroupUsers();
 
-	useEffect(() => {
-		if (!user?.email) return;
-		fetchUserGroup(user.email);
-	}, []);
+	const handleSelectClose = async (value: string | undefined) => {
+		setOpenSelectDialog(false);
+		const users = await fetchAllUsersInGroup(value);
+		setGroupUsers({
+			groupName: value,
+			groupUsers: users
+		});
+	};
 
-	const handleClose = async (value: string | undefined) => {
-		// const q = query(userGroupsCollection, where('name', '==', value));
-		// const userGroup = await getDocs(q);
-		// if (user?.email) {
-		// 	await addDoc(groupUsersCollection, {
-		// 		user_email: user?.email,
-		// 		group_name: value
-		// 	});
-		// }
-		setOpenDialog(false);
-		setGroupName(value);
+	const handleCreateClose = async (group: string | undefined) => {
+		setOpenCreateDialog(false);
+		handleSelectClose(group);
 	};
 
 	return (
@@ -36,25 +35,37 @@ const DrawerContent: FC = () => {
 			{!groupName && (
 				<Button
 					onClick={() => {
-						setOpenDialog(true);
+						setOpenSelectDialog(true);
 					}}
 				>
 					Join User Group
 				</Button>
 			)}
+			{!groupName && (
+				<Button
+					onClick={() => {
+						setOpenCreateDialog(true);
+					}}
+				>
+					Create User Group
+				</Button>
+			)}
 			<GroupDialog
 				selectedValue={groupName}
-				open={openDialog}
-				onClose={handleClose}
+				open={openSelectDialog}
+				onClose={handleSelectClose}
 			/>
-			{groupName && <GroupUsersList group_name={groupName} />}
+			<CreateGroup open={openCreateDialog} onClose={handleCreateClose} />
+			{groupName && (
+				<GroupUsersList groupName={groupName} groupUsers={groupUsers} />
+			)}
 			{groupName && user?.email && (
 				<Button
 					onClick={() => {
 						if (!user?.email) return;
 						const groupUserDoc = groupUserDocument(user?.email);
 						deleteDoc(groupUserDoc);
-						setGroupName(undefined);
+						setGroupUsers({ groupName: undefined, groupUsers: [] });
 					}}
 				>
 					Leave User Group

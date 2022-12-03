@@ -9,20 +9,20 @@ import {
 } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 
-import { WeatherForecast } from '../types/WeatherForecast';
+import {
+	ForecastItem,
+	MainDataKey,
+	WeatherForecast
+} from '../types/WeatherForecast';
 
 import WeatherTable from './WeatherTable';
 
-//
-type WeatherCardProps = {
-	name: string;
-	latitude: number;
-	longitude: number;
-};
 const apiKey = 'f8d581c6a5f819893fdbba63dc78bfe7';
 
-// function to fetch weather data from API
-const fetchWeather = async (latitude: number, longitude: number) => {
+const fetchWeather = async (
+	latitude: number,
+	longitude: number
+): Promise<WeatherForecast> => {
 	const response = await fetch(
 		`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
 	);
@@ -30,51 +30,56 @@ const fetchWeather = async (latitude: number, longitude: number) => {
 	return data;
 };
 
-const groupWeatherDataByDay = (data: any) => {
-	const groupedData = data.list.reduce((acc: any, item: any) => {
-		const date = item.dt_txt.split(' ')[0];
-		if (!acc[date]) {
-			acc[date] = [];
-		}
-		acc[date].push(item);
-		return acc;
-	}, {});
-	return Object.keys(groupedData).map((date: any) =>
-		// console.log(groupedData[date][0].weather[0].icon);
-		({
-			date,
-			data: groupedData[date],
-			icon: groupedData[date][0].weather[0].icon
-		})
+type WeatherGroupValues = Record<string, ForecastItem[]>;
+type WeatherGrouped = {
+	date: string;
+	data: ForecastItem[];
+	icon: string;
+};
+const groupWeatherDataByDay = (data: WeatherForecast): WeatherGrouped[] => {
+	const groupedData = data.list.reduce(
+		(acc: WeatherGroupValues, item: ForecastItem) => {
+			const date = item.dt_txt.split(' ')[0];
+			if (!acc[date]) {
+				acc[date] = [];
+			}
+			acc[date].push(item);
+			return acc;
+		},
+		{}
 	);
+	return Object.keys(groupedData).map((date: string) => ({
+		date,
+		data: groupedData[date],
+		icon: groupedData[date][0].weather[0].icon
+	}));
 };
 
-const getAverageTemp = (data: any, key: string) => {
-	const temps = data.map((item: any) => item.main[key]);
-	const sum = temps.reduce((acc: any, temp: any) => acc + temp, 0);
+const getAverageVal = (data: ForecastItem[], key: MainDataKey): number => {
+	const temps = data.map((item: ForecastItem) => item.main[key]);
+	const sum = temps.reduce((acc: number, temp: number) => acc + temp, 0);
 	return temps.length !== 0 ? sum / temps.length : 0;
 };
 
-const getMinTemp = (data: any, key: string) => {
-	const temps: number[] = data.map((item: any) => item.main[key]);
+const getMinVal = (data: ForecastItem[], key: MainDataKey): number => {
+	const temps: number[] = data.map((item: ForecastItem) => item.main[key]);
 	return Math.min(...temps);
 };
 
-const getMaxTemp = (data: any, key: string) => {
-	const temps: number[] = data.map((item: any) => item.main[key]);
+const getMaxVal = (data: ForecastItem[], key: MainDataKey): number => {
+	const temps: number[] = data.map((item: ForecastItem) => item.main[key]);
 	return Math.max(...temps);
 };
 
-const getMainAvgValues = (data: any, date: string, icon: string) => {
-	// console.log(icon);
-	const avgTemp = getAverageTemp(data, 'temp');
-	const avgFeelsLike = getAverageTemp(data, 'feels_like');
-	const avgTempMin = getMinTemp(data, 'temp_min');
-	const avgTempMax = getMaxTemp(data, 'temp_max');
-	const avgPressure = getAverageTemp(data, 'pressure');
-	const avgSeaLevel = getAverageTemp(data, 'sea_level');
-	const avgGroundLevel = getAverageTemp(data, 'grnd_level');
-	const avgHumidity = getAverageTemp(data, 'humidity');
+const getMainAvgValues = (data: ForecastItem[], date: string, icon: string) => {
+	const avgTemp = getAverageVal(data, 'temp');
+	const avgFeelsLike = getAverageVal(data, 'feels_like');
+	const avgTempMin = getMinVal(data, 'temp_min');
+	const avgTempMax = getMaxVal(data, 'temp_max');
+	const avgPressure = getAverageVal(data, 'pressure');
+	const avgSeaLevel = getAverageVal(data, 'sea_level');
+	const avgGroundLevel = getAverageVal(data, 'grnd_level');
+	const avgHumidity = getAverageVal(data, 'humidity');
 	return {
 		date,
 		avgTemp,
@@ -88,6 +93,7 @@ const getMainAvgValues = (data: any, date: string, icon: string) => {
 		icon
 	};
 };
+
 const days = [
 	'Sunday',
 	'Monday',
@@ -98,9 +104,13 @@ const days = [
 	'Saturday'
 ];
 
-const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
+type WeatherCardProps = {
+	latitude: number;
+	longitude: number;
+};
+const WeatherCard: FC<WeatherCardProps> = ({ latitude, longitude }) => {
 	const [weather, setWeather] = useState<WeatherForecast>();
-	const [error, setError] = useState<any>(null);
+	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -109,12 +119,6 @@ const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
 			.then(data => {
 				setWeather(data);
 				setLoading(false);
-				// console.log(groupWeatherDataByDay(data));
-				// console.log(
-				// 	groupWeatherDataByDay(data).map((item: any) =>
-				// 		getMainAvgValues(item.data, item.date)
-				// 	)
-				// );
 			})
 			.catch(error => {
 				setError(error);
@@ -124,15 +128,13 @@ const WeatherCard: FC<WeatherCardProps> = ({ name, latitude, longitude }) => {
 
 	return (
 		<>
-			{/* {weather && <LocationSummary {...weather.city} />} */}
 			{weather && (
 				<Grid container spacing={1} justifyContent="space-between">
 					{groupWeatherDataByDay(weather)
-						.map((item: any) =>
+						.map((item: WeatherGrouped) =>
 							getMainAvgValues(item.data, item.date, item.icon)
 						)
-						.map((item: any, k) => (
-							// console.log(`weather_icons/${item.icon}.png`);
+						.map((item, k) => (
 							<Grid item xs={2} sm={2} md={2} lg={2} key={k}>
 								<Card
 									sx={{

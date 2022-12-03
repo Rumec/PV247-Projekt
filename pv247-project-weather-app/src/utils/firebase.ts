@@ -13,7 +13,10 @@ import {
 	doc,
 	DocumentReference,
 	getDoc,
-	getFirestore
+	getDocs,
+	getFirestore,
+	query,
+	where
 } from 'firebase/firestore';
 
 // Initialize Firebase
@@ -73,6 +76,9 @@ export const userGroupsCollection = collection(
 	'user_groups'
 ) as CollectionReference<UserGroup>;
 
+export const groupDocument = (id: string) =>
+	doc(db, 'user_groups', id) as DocumentReference<UserGroup>;
+
 // GroupUsers collection
 export type GroupUser = {
 	group_name: string;
@@ -89,4 +95,10 @@ export const groupUserDocument = (id: string) =>
 export const fetchUserGroup = async (user_email: string) => {
 	const groupName = await getDoc(groupUserDocument(user_email));
 	return groupName;
+};
+
+export const fetchAllUsersInGroup = async (groupName: string | undefined) => {
+	const q = query(groupUsersCollection, where('group_name', '==', groupName));
+	const querySnapshot = await getDocs(q);
+	return querySnapshot.docs.map(doc => doc.id);
 };

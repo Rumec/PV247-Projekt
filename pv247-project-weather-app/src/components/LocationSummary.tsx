@@ -23,7 +23,6 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 	if (!id) {
 		return <Typography>Error</Typography>;
 	}
-	console.log(weather);
 
 	return (
 		<Grid

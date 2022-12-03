@@ -1,11 +1,11 @@
 import { CircularProgress, Typography } from '@mui/material';
 import { FC, useEffect } from 'react';
-import { onSnapshot, query, where } from 'firebase/firestore';
+import { onSnapshot, Query, query, where } from 'firebase/firestore';
 
 import { LocationWeather } from '../utils/typeDefinitions';
 import useLocationWeatherInfo from '../hooks/useLocationWeatherInfo';
 import { useUserLocations } from '../hooks/useUserLocations';
-import { favoritePlacesCollection } from '../utils/firebase';
+import { FavoritePlace, favoritePlacesCollection } from '../utils/firebase';
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import { useGroupUsers } from '../hooks/useGroupUsers';
 
@@ -15,12 +15,12 @@ type Props = { showGroup: boolean };
 const LocationsTable: FC<Props> = ({ showGroup }) => {
 	const user = useLoggedInUser();
 	const [places, setPlaces] = useUserLocations();
-	const [{ groupUsers }, setGroupUsers] = useGroupUsers();
+	const [{ groupUsers }] = useGroupUsers();
 	const { weatherInfo, isLoading, error } = useLocationWeatherInfo(
 		places.map(place => place.placeId)
 	);
 
-	const getLocationQuery = (wholeGroup: boolean) => {
+	const getLocationQuery = (wholeGroup: boolean): Query<FavoritePlace> => {
 		if (wholeGroup) {
 			return query(favoritePlacesCollection, where('by', 'in', groupUsers));
 		}

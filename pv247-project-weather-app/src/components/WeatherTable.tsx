@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { CSVLink } from 'react-csv';
 
-import { WeatherForecast } from '../types/WeatherForecast';
+import { ForecastItem, WeatherForecast } from '../types/WeatherForecast';
 
 const headers = [
 	{ label: 'Date', key: 'date' },
@@ -33,15 +33,11 @@ const headers = [
 	{ label: 'Humidity', key: 'humidity' }
 ];
 
-type WeatherTableProps = {
-	weather: WeatherForecast | undefined;
-};
-
 const getWeatherData = (weather: WeatherForecast) =>
-	weather.list.map((item: any) => ({
+	weather.list.map((item: ForecastItem) => ({
 		date: item.dt_txt,
 		desc: item.weather[0].description,
-		clouds: item.all,
+		clouds: item.clouds.all,
 		wind_speed: item.wind.speed,
 		wind_dir: item.wind.deg,
 		wind_gust: item.wind.gust,
@@ -56,6 +52,10 @@ const getWeatherData = (weather: WeatherForecast) =>
 		grnd_level: item.main.grnd_level,
 		humidity: item.main.humidity
 	}));
+
+type WeatherTableProps = {
+	weather: WeatherForecast | undefined;
+};
 
 const WeatherTable: React.FC<WeatherTableProps> = ({ weather }) => (
 	<Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -100,7 +100,7 @@ const WeatherTable: React.FC<WeatherTableProps> = ({ weather }) => (
 				</TableHead>
 				{weather && (
 					<TableBody>
-						{weather.list.map(row => (
+						{weather.list.map((row: ForecastItem) => (
 							<TableRow
 								key={row.dt_txt}
 								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

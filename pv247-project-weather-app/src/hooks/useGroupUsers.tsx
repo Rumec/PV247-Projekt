@@ -36,7 +36,6 @@ export const GroupUsersProvider: FC<PropsWithChildren> = ({ children }) => {
 	const fetchUserGroup = async (user_email: string) => {
 		const groupUserDoc = await getDoc(groupUserDocument(user_email));
 		const groupName = groupUserDoc.data()?.group_name;
-		console.log('groupName', groupName);
 		const q = query(groupUsersCollection, where('group_name', '==', groupName));
 		const querySnapshot = await getDocs(q);
 		setGroupUsersState({

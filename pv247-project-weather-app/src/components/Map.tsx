@@ -22,8 +22,6 @@ const DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const location: L.LatLngExpression = [48.84893, 17.13244];
-
 const mapLayers = [
 	{ owa: 'temp_new', name: 'Temperature' },
 	{ owa: 'precipitation_new', name: 'Precipitation' },
@@ -38,6 +36,7 @@ type MapProps = {
 	lat: number;
 	lon: number;
 };
+
 const Map: FC<MapProps> = ({ name, lat, lon }) => (
 	<Container sx={{ width: '100%', height: '100%' }}>
 		<MapContainer

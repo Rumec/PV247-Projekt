@@ -10,7 +10,6 @@ type Props = {
 
 const GroupDrawer: FC<Props> = ({ openDrawer, setOpenDrawer }) => (
 	<Drawer anchor="left" open={openDrawer} onClose={() => setOpenDrawer(false)}>
-		{/* {getUserGroups(user)} */}
 		<DrawerContent />
 	</Drawer>
 );

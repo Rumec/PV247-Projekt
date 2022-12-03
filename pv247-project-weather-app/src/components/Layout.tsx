@@ -18,14 +18,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 				<AppBar sx={{ position: 'sticky', top: 0 }}>
 					<Container maxWidth="lg">
 						<Toolbar disableGutters sx={{ gap: 2 }}>
-							<Button
-								onClick={() => {
-									console.log('in on click button');
-									setOpenDrawer(true);
-								}}
-							>
-								My Group
-							</Button>
+							<Button onClick={() => setOpenDrawer(true)}>My Group</Button>
 							<GroupDrawer
 								openDrawer={openDrawer}
 								setOpenDrawer={setOpenDrawer}
@@ -57,7 +50,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					//justifyContent: 'center',
 					alignItems: 'center',
 					flexGrow: 1,
 					gap: 2
