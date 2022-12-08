@@ -13,13 +13,15 @@ import LocationsTable from '../components/LocationsTable';
 import useTitle from '../hooks/useTitle';
 import AddLocationDialog from '../components/AddLocationDialog';
 import { UserLocationsProvider } from '../hooks/useUserLocations';
+import { useGroupUsers } from '../hooks/useGroupUsers';
 
 const LocationList = () => {
 	useTitle('Locations');
-	const [showGroupLocaitons, showGroupLocaitonsProps] = useSwitch(
-		'show-group-locaitons',
+	const [showGroupLocations, showGroupLocaitonsProps] = useSwitch(
+		'show-group-locations',
 		'medium'
 	);
+	const [{ groupName }] = useGroupUsers();
 
 	const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -37,12 +39,14 @@ const LocationList = () => {
 				<Typography variant="h1" fontWeight="bold">
 					Locations
 				</Typography>
-				<FormGroup>
-					<FormControlLabel
-						control={<Switch {...showGroupLocaitonsProps} />}
-						label="Show group locations"
-					/>
-				</FormGroup>
+				{groupName && (
+					<FormGroup>
+						<FormControlLabel
+							control={<Switch {...showGroupLocaitonsProps} />}
+							label="Show group locations"
+						/>
+					</FormGroup>
+				)}
 				<Button
 					variant="contained"
 					sx={{ fontWeight: 'bold' }}
@@ -58,7 +62,7 @@ const LocationList = () => {
 				}}
 			>
 				<UserLocationsProvider>
-					<LocationsTable />
+					<LocationsTable showGroup={showGroupLocations} />
 					<AddLocationDialog
 						isOpened={openDialog}
 						setIsOpened={setOpenDialog}

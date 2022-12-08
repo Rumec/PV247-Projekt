@@ -34,6 +34,7 @@ const Login = () => {
 				onSubmit={async (e: FormEvent) => {
 					e.preventDefault();
 					try {
+						setSubmitError(undefined);
 						isRegistration
 							? await signUp(email, password)
 							: await signIn(email, password);
@@ -82,7 +83,11 @@ const Login = () => {
 					>
 						SignUp
 					</Button>
-					<Button type="submit" variant="contained">
+					<Button
+						type="submit"
+						variant="contained"
+						onClick={() => setIsRegistration(false)}
+					>
 						SignIn
 					</Button>
 				</Box>

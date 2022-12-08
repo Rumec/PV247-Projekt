@@ -1,7 +1,7 @@
 /*****************************************************************************/
 /****************************Weather data types*******************************/
 /*****************************************************************************/
-type Coord = {
+export type Coord = {
 	lon: number;
 	lat: number;
 };
@@ -13,7 +13,7 @@ type SystemData = {
 	sunset: number;
 };
 
-type Weather = [
+export type Weather = [
 	{
 		id: number;
 		main: string;
@@ -37,7 +37,7 @@ type WindData = {
 	deg: number;
 };
 
-type Clouds = {
+export type Clouds = {
 	all: number;
 };
 
