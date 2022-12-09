@@ -7,6 +7,7 @@ import theme from './utils/theme';
 import Layout from './components/Layout';
 import AppRoutes from './components/AppRoutes';
 import { GroupUsersProvider } from './hooks/useGroupUsers';
+import { UserSettingsProvider } from './hooks/useUserSettings';
 
 const App = () => (
 	<UserProvider>
@@ -14,9 +15,11 @@ const App = () => (
 			<BrowserRouter>
 				<CssBaseline />
 				<GroupUsersProvider>
-					<Layout>
-						<AppRoutes />
-					</Layout>
+					<UserSettingsProvider>
+						<Layout>
+							<AppRoutes />
+						</Layout>
+					</UserSettingsProvider>
 				</GroupUsersProvider>
 			</BrowserRouter>
 		</ThemeProvider>
