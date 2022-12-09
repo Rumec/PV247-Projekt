@@ -3,6 +3,7 @@ import {
 	Card,
 	CardContent,
 	CardMedia,
+	CircularProgress,
 	Grid,
 	Paper,
 	Typography
@@ -125,6 +126,12 @@ const WeatherCard: FC<WeatherCardProps> = ({ latitude, longitude }) => {
 				setLoading(false);
 			});
 	}, [latitude, longitude]);
+
+	if (error) {
+		return <Typography variant="h1">Failed to load</Typography>;
+	}
+
+	if (loading) return <CircularProgress />;
 
 	return (
 		<>

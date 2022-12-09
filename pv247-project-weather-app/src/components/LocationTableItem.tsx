@@ -58,12 +58,12 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 							{name}
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={4} display="flex" justifyContent="flex-start">
 						<Typography variant="h5" fontWeight="bold" color="black">
 							Temperature: {temperature}
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
+					<Grid item xs={4} display="flex" justifyContent="flex-start">
 						<Typography variant="h5" fontWeight="bold" color="black">
 							Weather: {weather}
 						</Typography>
