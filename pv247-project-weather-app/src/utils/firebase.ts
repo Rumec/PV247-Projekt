@@ -21,12 +21,18 @@ import {
 
 // Initialize Firebase
 initializeApp({
-	apiKey: 'AIzaSyAMutb8nnQynerYgDZFsnxOPIn7R3Pw0R0',
-	authDomain: 'pv247-projekt-1a41d.firebaseapp.com',
-	projectId: 'pv247-projekt-1a41d',
-	storageBucket: 'pv247-projekt-1a41d.appspot.com',
-	messagingSenderId: '1054167423490',
-	appId: '1:1054167423490:web:8ed048c0325443ed7e251b'
+	// apiKey: 'AIzaSyAMutb8nnQynerYgDZFsnxOPIn7R3Pw0R0',
+	// authDomain: 'pv247-projekt-1a41d.firebaseapp.com',
+	// projectId: 'pv247-projekt-1a41d',
+	// storageBucket: 'pv247-projekt-1a41d.appspot.com',
+	// messagingSenderId: '1054167423490',
+	// appId: '1:1054167423490:web:8ed048c0325443ed7e251b'
+	apiKey: 'AIzaSyDN-_-jpqKyjvQqrr8KnLUw9akKKxYvp74',
+	authDomain: 'pv247-projekt-9b911.firebaseapp.com',
+	projectId: 'pv247-projekt-9b911',
+	storageBucket: 'pv247-projekt-9b911.appspot.com',
+	messagingSenderId: '592431243266',
+	appId: '1:592431243266:web:d6f56aa36c4eba5423c71b'
 });
 
 // Authentication
