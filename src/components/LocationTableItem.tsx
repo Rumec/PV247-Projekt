@@ -50,7 +50,8 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 				<Grid container spacing={2} alignItems="center">
 					<Grid
 						item
-						md={4}
+						xs={12}
+						sm={4}
 						display="flex"
 						justifyContent="flex-start"
 						alignItems="flex-end"
@@ -59,22 +60,22 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 							{name}
 						</Typography>
 					</Grid>
-					<Grid item md={4} display="flex" justifyContent="flex-start">
+					<Grid item xs={12} sm={4} display="flex" justifyContent="flex-start">
 						<Typography
 							sx={{
 								fontWeight: 'bold',
-								fontSize: { xs: '1rem', lg: '2rem' }
+								fontSize: { xs: '1rem', lg: '1.7rem' }
 							}}
 							color="black"
 						>
 							Temperature: {temperature} {tempSign}
 						</Typography>
 					</Grid>
-					<Grid item md={4} display="flex" justifyContent="flex-start">
+					<Grid item xs={12} sm={4} display="flex" justifyContent="flex-start">
 						<Typography
 							sx={{
 								fontWeight: 'bold',
-								fontSize: { xs: '1rem', lg: '2rem' }
+								fontSize: { xs: '1rem', lg: '1.7rem' }
 							}}
 							color="black"
 						>

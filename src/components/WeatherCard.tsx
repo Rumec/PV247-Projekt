@@ -28,9 +28,6 @@ const fetchWeather = async (
 	unitSettings: boolean
 ): Promise<WeatherForecast> => {
 	const units = unitSettings ? 'metric' : 'imperial';
-	// console.log(
-	// 	`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`
-	// );
 	const response = await fetch(
 		`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`
 	);
