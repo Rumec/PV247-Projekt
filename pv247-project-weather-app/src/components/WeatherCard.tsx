@@ -8,7 +8,7 @@ import {
 	Paper,
 	Typography
 } from '@mui/material';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import {
 	ForecastItem,
@@ -152,7 +152,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ latitude, longitude }) => {
 							getMainAvgValues(item.data, item.date, item.icon)
 						)
 						.map((item, k) => (
-							<Grid item xs={2} sm={2} md={2} lg={2} key={k}>
+							<Grid item xs={12} sm={4} md={2} key={k}>
 								<Card
 									sx={{
 										display: 'flex',

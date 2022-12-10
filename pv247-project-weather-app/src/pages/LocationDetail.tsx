@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 import LocationSummary from '../components/LocationSummary';
@@ -19,10 +19,10 @@ const LocationDetail = () => {
 	]);
 
 	if (error) {
-		return <div>failed to load</div>;
+		return <Typography variant="h1">Failed to load</Typography>;
 	}
+	if (isLoading) return <CircularProgress />;
 
-	if (isLoading) return <div>loading...</div>;
 	return (
 		<>
 			<LocationSummary

@@ -21,14 +21,14 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 	const user = useLoggedInUser();
 	const navigate = useNavigate();
 	const [openDrawer, setOpenDrawer] = useState(false);
-	const unitSettingsSwitchProps = useUnitSwitch();
+	const userSettingsSwitchProps = useUnitSwitch();
 
 	return (
 		<>
 			{!!user && (
 				<AppBar sx={{ position: 'sticky', top: 0 }}>
-					<Container maxWidth="lg">
-						<Toolbar disableGutters sx={{ gap: 2 }}>
+					<Container sx={{ width: { sm: '90%', md: '80%' } }}>
+						<Toolbar disableGutters sx={{ gap: { xs: 1, md: 2 } }}>
 							<Button onClick={() => setOpenDrawer(true)}>My Group</Button>
 							<GroupDrawer
 								openDrawer={openDrawer}
@@ -44,7 +44,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 							<Box sx={{ flexGrow: 1 }} />
 							<FormGroup>
 								<FormControlLabel
-									control={<Switch {...unitSettingsSwitchProps} />}
+									control={<Switch {...userSettingsSwitchProps} />}
 									label="Metric units"
 								/>
 							</FormGroup>

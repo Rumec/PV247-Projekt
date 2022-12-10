@@ -22,7 +22,7 @@ const Login = () => {
 	return (
 		<Box
 			sx={{
-				width: '30rem',
+				width: { xs: '20rem', md: '30rem' },
 				display: 'flex',
 				height: '100vh',
 				alignItems: 'center',
