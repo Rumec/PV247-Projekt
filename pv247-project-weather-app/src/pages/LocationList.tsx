@@ -3,6 +3,7 @@ import {
 	Button,
 	FormControlLabel,
 	FormGroup,
+	Grid,
 	Switch,
 	Typography
 } from '@mui/material';
@@ -27,38 +28,60 @@ const LocationList = () => {
 
 	return (
 		<>
-			<Box
+			<Grid
+				container
 				sx={{
-					width: '78%',
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'space-between',
+					width: { sm: '88%', md: '78%' },
+					marginTop: { xs: '1rem', md: 0 },
 					alignItems: 'center'
 				}}
 			>
-				<Typography variant="h1" fontWeight="bold">
-					Locations
-				</Typography>
+				<Grid item xs={12} md={4}>
+					<Typography
+						sx={{
+							fontWeight: 'bold',
+							fontSize: { xs: '3rem', lg: '4.5rem' }
+						}}
+					>
+						Locations
+					</Typography>
+				</Grid>
 				{groupName && (
-					<FormGroup>
-						<FormControlLabel
-							control={<Switch {...showGroupLocaitonsProps} />}
-							label="Show group locations"
-						/>
-					</FormGroup>
+					<Grid
+						item
+						xs={6}
+						md={4}
+						sx={{
+							display: 'flex',
+							justifyContent: { xs: 'start', md: 'center' }
+						}}
+					>
+						<FormGroup>
+							<FormControlLabel
+								control={<Switch {...showGroupLocaitonsProps} />}
+								label="Show group locations"
+							/>
+						</FormGroup>
+					</Grid>
 				)}
-				<Button
-					variant="contained"
-					sx={{ fontWeight: 'bold' }}
-					onClick={() => setOpenDialog(true)}
+				<Grid
+					item
+					xs={6}
+					md={4}
+					sx={{ display: 'flex', justifyContent: 'end' }}
 				>
-					Add new location
-				</Button>
-			</Box>
-
+					<Button
+						variant="contained"
+						sx={{ fontWeight: 'bold' }}
+						onClick={() => setOpenDialog(true)}
+					>
+						Add new location
+					</Button>
+				</Grid>
+			</Grid>
 			<Box
 				sx={{
-					width: '80%'
+					width: { md: '80%' }
 				}}
 			>
 				<UserLocationsProvider>

@@ -35,7 +35,7 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 			sx={{ width: '100%' }}
 			mt={2}
 		>
-			<Grid item xs={6} sm={6}>
+			<Grid container item xs={12} md={6}>
 				<Card sx={{ width: '100%', height: '100%' }} variant="outlined">
 					<Grid
 						container
@@ -43,7 +43,7 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 						justifyContent="center"
 						sx={{ height: '100%' }}
 					>
-						<Grid item xs={6} sm={6}>
+						<Grid item xs={12} md={6}>
 							<Card variant="outlined" sx={{ width: '100%', height: '100%' }}>
 								<CardHeader
 									title={
@@ -75,7 +75,7 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 								</CardContent>
 							</Card>
 						</Grid>
-						<Grid item xs={6} sm={6}>
+						<Grid item xs={12} md={6}>
 							<Card sx={{ width: '100%', height: '100%' }} variant="outlined">
 								<Box
 									sx={{
@@ -140,7 +140,7 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 					</Grid>
 				</Card>
 			</Grid>
-			<Grid item xs={6} sm={6}>
+			<Grid item xs={12} md={6}>
 				<Map
 					name={weather.name}
 					lat={weather.coord.lat}
