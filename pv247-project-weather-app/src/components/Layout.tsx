@@ -21,7 +21,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 	const user = useLoggedInUser();
 	const navigate = useNavigate();
 	const [openDrawer, setOpenDrawer] = useState(false);
-	const userSettingsSwitchProps = useUnitSwitch();
+	const unitSettingsSwitchProps = useUnitSwitch();
 
 	return (
 		<>
@@ -44,7 +44,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 							<Box sx={{ flexGrow: 1 }} />
 							<FormGroup>
 								<FormControlLabel
-									control={<Switch {...userSettingsSwitchProps} />}
+									control={<Switch {...unitSettingsSwitchProps} />}
 									label="Metric units"
 								/>
 							</FormGroup>

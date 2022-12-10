@@ -13,6 +13,7 @@ import { FlagIcon, FlagIconCode } from 'react-flag-kit';
 
 import Map from '../components/Map';
 import { CurrentWeather } from '../types/CurrentWeather';
+import useUnitSign from '../hooks/useUnitSign';
 
 type LocationSummaryProps = {
 	id: string | undefined;
@@ -20,6 +21,8 @@ type LocationSummaryProps = {
 };
 
 const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
+	const [temperatureSign, speedSign] = useUnitSign();
+
 	if (!id) {
 		return <Typography>Error</Typography>;
 	}
@@ -109,22 +112,22 @@ const LocationSummary: FC<LocationSummaryProps> = ({ id, weather }) => {
 									Rain: {weather.rain ? `${weather.rain['1h']}  mm` : 'unknown'}
 								</Typography>
 								<Typography variant="h6" color="textSecondary">
-									Wind: {weather.wind.speed} m/s | {weather.wind.deg} deg
+									Wind: {weather.wind.speed} {speedSign}
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
 									Cloudiness: {weather.clouds.all} %
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Temperature: {weather.main.temp} °C
+									Temperature: {weather.main.temp} {temperatureSign}
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Feels Like Temp: {weather.main.feels_like} °C
+									Feels Like Temp: {weather.main.feels_like} {temperatureSign}
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Min Temperature: {weather.main.temp_min} °C
+									Min Temperature: {weather.main.temp_min} {temperatureSign}
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
-									Max Temperature: {weather.main.temp_max} °C
+									Max Temperature: {weather.main.temp_max} {temperatureSign}
 								</Typography>
 								<Typography variant="h5" color="textSecondary">
 									Pressure: {weather.main.pressure} hPa

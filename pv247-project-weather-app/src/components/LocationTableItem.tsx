@@ -6,6 +6,7 @@ import { deleteDoc } from 'firebase/firestore';
 
 import { useUserLocations } from '../hooks/useUserLocations';
 import { favoritePlacesDocument } from '../utils/firebase';
+import useUnitSign from '../hooks/useUnitSign';
 
 type Props = {
 	id: number;
@@ -17,6 +18,7 @@ type Props = {
 const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 	const navigate = useNavigate();
 	const [places] = useUserLocations();
+	const unitSign = useUnitSign();
 
 	const onDelete = useCallback(async () => {
 		const dbId = places.filter(p => p.placeId === id)[0]?.dbID;
@@ -60,7 +62,7 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 					</Grid>
 					<Grid item xs={4} display="flex" justifyContent="flex-start">
 						<Typography variant="h5" fontWeight="bold" color="black">
-							Temperature: {temperature}
+							Temperature: {temperature} {unitSign}
 						</Typography>
 					</Grid>
 					<Grid item xs={4} display="flex" justifyContent="flex-start">

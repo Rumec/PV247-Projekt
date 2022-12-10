@@ -1,25 +1,25 @@
 import { useCallback, useEffect } from 'react';
 import { getDoc, setDoc } from 'firebase/firestore';
 
-import { userSettingsDocument } from '../utils/firebase';
+import { unitSettingsDocument } from '../utils/firebase';
 
-import { useUserSettings } from './useUserSettings';
+import { useUnitSettings } from './useUnitSettings';
 import useLoggedInUser from './useLoggedInUser';
 
 const useUnitSwitch = () => {
-	const [userSettings, setUserSettings] = useUserSettings();
+	const [userSettings, setUserSettings] = useUnitSettings();
 	const user = useLoggedInUser();
 
 	// Checks whether user already logged in and thus has his entry in the database
 	// if not, new entry with default value (celsius, we are not dumbasses) is created
 	const getSettings = async () => {
 		if (user) {
-			const docSnap = await getDoc(userSettingsDocument(user?.email as string));
+			const docSnap = await getDoc(unitSettingsDocument(user?.email as string));
 
 			if (docSnap.exists()) {
 				setUserSettings(docSnap.data().useCelsius);
 			} else {
-				await setDoc(userSettingsDocument(user?.email as string), {
+				await setDoc(unitSettingsDocument(user?.email as string), {
 					userEmail: user?.email as string,
 					useCelsius: true
 				});
@@ -29,7 +29,7 @@ const useUnitSwitch = () => {
 	};
 
 	useEffect(() => {
-		getSettings().catch(err => console.log('fuck', err));
+		getSettings().catch(err => console.log(err));
 	}, [user]);
 
 	return {
@@ -37,7 +37,7 @@ const useUnitSwitch = () => {
 		value: userSettings,
 		checked: userSettings,
 		onChange: useCallback(async () => {
-			await setDoc(userSettingsDocument(user?.email as string), {
+			await setDoc(unitSettingsDocument(user?.email as string), {
 				userEmail: user?.email as string,
 				useCelsius: !userSettings
 			});

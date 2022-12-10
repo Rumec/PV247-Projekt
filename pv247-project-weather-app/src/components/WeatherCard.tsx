@@ -8,13 +8,15 @@ import {
 	Paper,
 	Typography
 } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import {
 	ForecastItem,
 	MainDataKey,
 	WeatherForecast
 } from '../types/WeatherForecast';
+import { useUnitSettings } from '../hooks/useUnitSettings';
+import useUnitSign from '../hooks/useUnitSign';
 
 import WeatherTable from './WeatherTable';
 
@@ -22,10 +24,15 @@ const apiKey = 'f8d581c6a5f819893fdbba63dc78bfe7';
 
 const fetchWeather = async (
 	latitude: number,
-	longitude: number
+	longitude: number,
+	unitSettings: boolean
 ): Promise<WeatherForecast> => {
+	const units = unitSettings ? 'metric' : 'imperial';
+	// console.log(
+	// 	`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`
+	// );
 	const response = await fetch(
-		`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`
+		`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=${units}`
 	);
 	const data = await response.json();
 	return data;
@@ -113,10 +120,13 @@ const WeatherCard: FC<WeatherCardProps> = ({ latitude, longitude }) => {
 	const [weather, setWeather] = useState<WeatherForecast>();
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState<boolean>(false);
+	const [unitSettings] = useUnitSettings();
+	const [tempSign] = useUnitSign();
 
 	useEffect(() => {
+		// NOTE: This is ugly AF
 		setLoading(true);
-		fetchWeather(latitude, longitude)
+		fetchWeather(latitude, longitude, unitSettings)
 			.then(data => {
 				setWeather(data);
 				setLoading(false);
@@ -125,7 +135,7 @@ const WeatherCard: FC<WeatherCardProps> = ({ latitude, longitude }) => {
 				setError(error);
 				setLoading(false);
 			});
-	}, [latitude, longitude]);
+	}, [latitude, longitude, unitSettings]);
 
 	if (error) {
 		return <Typography variant="h1">Failed to load</Typography>;
@@ -183,19 +193,21 @@ const WeatherCard: FC<WeatherCardProps> = ({ latitude, longitude }) => {
 											</Box>
 										</Box>
 										<Typography variant="h6" color="textSecondary">
-											Temperature: {Math.round(item.avgTemp * 100) / 100}°C
+											Temperature: {Math.round(item.avgTemp * 100) / 100}
+											{tempSign}
 										</Typography>
 										<Typography variant="h6" color="textSecondary">
 											Feels Like Temperature:{' '}
-											{Math.round(item.avgFeelsLike * 100) / 100}°C
+											{Math.round(item.avgFeelsLike * 100) / 100}
+											{tempSign}
 										</Typography>
 										<Typography variant="h6" color="textSecondary">
 											Min Temperature: {Math.round(item.avgTempMin * 100) / 100}
-											°C
+											{tempSign}
 										</Typography>
 										<Typography variant="h6" color="textSecondary">
 											Max Temperature: {Math.round(item.avgTempMax * 100) / 100}
-											°C
+											{tempSign}
 										</Typography>
 										<Typography variant="h6" color="textSecondary">
 											Pressure: {Math.round(item.avgPressure * 100) / 100} hPa
