@@ -1,9 +1,19 @@
-import { AppBar, Box, Button, Container, Toolbar } from '@mui/material';
+import {
+	AppBar,
+	Box,
+	Button,
+	Container,
+	FormControlLabel,
+	FormGroup,
+	Switch,
+	Toolbar
+} from '@mui/material';
 import { FC, PropsWithChildren, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import useLoggedInUser from '../hooks/useLoggedInUser';
 import { signOut } from '../utils/firebase';
+import useUnitSwitch from '../hooks/useUnitSwitch';
 
 import GroupDrawer from './GroupDrawer';
 
@@ -11,13 +21,14 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 	const user = useLoggedInUser();
 	const navigate = useNavigate();
 	const [openDrawer, setOpenDrawer] = useState(false);
+	const userSettingsSwitchProps = useUnitSwitch();
 
 	return (
 		<>
 			{!!user && (
 				<AppBar sx={{ position: 'sticky', top: 0 }}>
-					<Container maxWidth="lg">
-						<Toolbar disableGutters sx={{ gap: 2 }}>
+					<Container sx={{ width: { sm: '90%', md: '80%' } }}>
+						<Toolbar disableGutters sx={{ gap: { xs: 1, md: 2 } }}>
 							<Button onClick={() => setOpenDrawer(true)}>My Group</Button>
 							<GroupDrawer
 								openDrawer={openDrawer}
@@ -31,6 +42,12 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
 								Home
 							</Button>
 							<Box sx={{ flexGrow: 1 }} />
+							<FormGroup>
+								<FormControlLabel
+									control={<Switch {...userSettingsSwitchProps} />}
+									label="Metric units"
+								/>
+							</FormGroup>
 							<Button
 								onClick={() => {
 									navigate('/');

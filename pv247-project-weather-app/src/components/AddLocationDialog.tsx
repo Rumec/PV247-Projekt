@@ -33,7 +33,6 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 			<Paper
 				component="form"
 				onSubmit={async (e: FormEvent) => {
-					// TODO: Is it possible to make it better?
 					e.preventDefault();
 
 					const query = `?q=${location}&APPID=f8d581c6a5f819893fdbba63dc78bfe7`;
@@ -78,7 +77,7 @@ const AddLocationDialog: FC<Props> = ({ isOpened, setIsOpened }) => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 2,
-						minWidth: 500
+						minWidth: { md: 500 }
 					}}
 				>
 					<TextField

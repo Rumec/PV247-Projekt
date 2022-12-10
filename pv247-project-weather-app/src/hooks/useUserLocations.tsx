@@ -17,7 +17,6 @@ type UserLocationsState = [
 	Dispatch<SetStateAction<FavoritePlaceWrapper[]>>
 ];
 
-// TODO: This will be fetched from API (FireBase)
 const UserLocationsContext = createContext<UserLocationsState>(
 	undefined as never
 );

@@ -68,6 +68,19 @@ export const favoritePlacesCollection = collection(
 export const favoritePlacesDocument = (id: string) =>
 	doc(db, 'favorite_places', id) as DocumentReference<FavoritePlace>;
 
+export type UnitSettings = {
+	userEmail: string;
+	useCelsius: boolean;
+};
+
+export const unitSettingsCollection = collection(
+	db,
+	'unit_settings'
+) as CollectionReference<UnitSettings>;
+
+export const unitSettingsDocument = (userEmail: string) =>
+	doc(db, 'unit_settings', userEmail) as DocumentReference<UnitSettings>;
+
 // UserGroup collection
 export type UserGroup = Record<string, never>;
 

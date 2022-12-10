@@ -66,7 +66,7 @@ const CreateGroup: FC<CreateGroupProps> = ({ open, onClose, onSubmit }) => {
 						display: 'flex',
 						flexDirection: 'column',
 						gap: 2,
-						minWidth: 500
+						minWidth: { md: 500 }
 					}}
 				>
 					<TextField

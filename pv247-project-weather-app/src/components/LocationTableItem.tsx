@@ -6,6 +6,7 @@ import { deleteDoc } from 'firebase/firestore';
 
 import { useUserLocations } from '../hooks/useUserLocations';
 import { favoritePlacesDocument } from '../utils/firebase';
+import useUnitSign from '../hooks/useUnitSign';
 
 type Props = {
 	id: number;
@@ -17,6 +18,7 @@ type Props = {
 const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 	const navigate = useNavigate();
 	const [places] = useUserLocations();
+	const [tempSign] = useUnitSign();
 
 	const onDelete = useCallback(async () => {
 		const dbId = places.filter(p => p.placeId === id)[0]?.dbID;
@@ -24,7 +26,6 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 	}, [places]);
 
 	return (
-		// TODO: Styling
 		<Box
 			sx={{
 				display: 'flex',
@@ -49,7 +50,7 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 				<Grid container spacing={2} alignItems="center">
 					<Grid
 						item
-						xs={4}
+						md={4}
 						display="flex"
 						justifyContent="flex-start"
 						alignItems="flex-end"
@@ -58,13 +59,25 @@ const LocationTableItem: FC<Props> = ({ id, name, temperature, weather }) => {
 							{name}
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
-						<Typography variant="h5" fontWeight="bold" color="black">
-							Temperature: {temperature}
+					<Grid item md={4} display="flex" justifyContent="flex-start">
+						<Typography
+							sx={{
+								fontWeight: 'bold',
+								fontSize: { xs: '1rem', lg: '2rem' }
+							}}
+							color="black"
+						>
+							Temperature: {temperature} {tempSign}
 						</Typography>
 					</Grid>
-					<Grid item xs={4}>
-						<Typography variant="h5" fontWeight="bold" color="black">
+					<Grid item md={4} display="flex" justifyContent="flex-start">
+						<Typography
+							sx={{
+								fontWeight: 'bold',
+								fontSize: { xs: '1rem', lg: '2rem' }
+							}}
+							color="black"
+						>
 							Weather: {weather}
 						</Typography>
 					</Grid>
