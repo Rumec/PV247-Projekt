@@ -15,3 +15,6 @@ tracked place!
 
 Once you will use this app, you will be hooked!
 
+NOTE: ID: pv247-8afae
+pv247-8afae.firebaseapp.com
+pv247-8afae.web.app
