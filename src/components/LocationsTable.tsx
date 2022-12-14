@@ -31,7 +31,14 @@ const LocationsTable: FC<Props> = ({ showGroup }) => {
 		const q = getLocationQuery(showGroup);
 
 		const unsubscribe = onSnapshot(q, snapshot => {
-			setPlaces(snapshot.docs.map(doc => ({ ...doc.data(), dbID: doc.id })));
+			const places = snapshot.docs.map(doc => ({
+				...doc.data(),
+				dbID: doc.id
+			}));
+			const uniquePlaces = Array.from(
+				new Map(places.map(item => [item.placeId, item])).values()
+			);
+			setPlaces(uniquePlaces);
 		});
 		return () => {
 			unsubscribe();
